@@ -1,7 +1,6 @@
 package org.smsr.pagesmsr;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 public class PageActivity extends SingleFragmentActivity
 {

@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class MessageStore
 {
-	private static final String TAG = "MessageStore";
 	private static MessageStore messageList;
 	private Context appContext;
 	private ArrayList<String> messages;
