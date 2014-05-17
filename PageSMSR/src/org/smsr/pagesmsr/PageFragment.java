@@ -23,7 +23,18 @@ public class PageFragment extends Fragment
 		super.onCreate(savedInstanceState);
 		
 		int messageID = (Integer)getArguments().getSerializable(EXTRA_MESSAGE_ID);
-		message = MessageStore.get(getActivity()).getMessage(messageID);
+		try
+		{
+			message = MessageStore.get(getActivity()).getMessage(messageID);
+		}
+		catch(IOException ioe)
+    	{
+    		Log.e(TAG, "Exception occurred attempting to load message with ID " + messageID + ": " + ioe.getMessage());
+    		
+    	    StringWriter sw = new StringWriter();
+    	    ioe.printStackTrace(new PrintWriter(sw));
+    		Log.e(TAG, sw.toString());
+    	}
 	}
 	
 	

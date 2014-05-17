@@ -25,7 +25,18 @@ public class PageListFragment extends ListFragment
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.app_name);
         
-        messages = MessageStore.get(getActivity()).getMessages(); 
+        try
+        {
+        	messages = MessageStore.get(getActivity()).getMessages();
+        }
+        catch(IOException ioe)
+    	{
+    		Log.e(TAG, "Exception occurred attempting to load message list: " + ioe.getMessage());
+    		
+    	    StringWriter sw = new StringWriter();
+    	    ioe.printStackTrace(new PrintWriter(sw));
+    		Log.e(TAG, sw.toString());
+    	}
         
         // simple_list_item_1 is a pre-defined layout from the resources provided by the Android SDK (an R.layout constant)
         // It has a TextView as its root element.

@@ -43,7 +43,7 @@ public class MessageSerializer
 	}
 	
 	
-	public List<String> loadMessages()
+	public ArrayList<String> loadMessages()
 		throws IOException
 	{
 		String m;

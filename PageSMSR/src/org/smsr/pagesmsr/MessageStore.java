@@ -15,18 +15,24 @@ public class MessageStore
 {
 	private static final String SMSR_FILENAME = "pagesmsr.txt";
 	private static MessageStore messageList;
+	private MessageSerializer serializer;
 	private Context appContext;
 	private ArrayList<String> messages;
 	
 	private MessageStore(Context c)
+		throws IOException
 	{
 		appContext = c;
-		messages = new ArrayList<String>();
-		populateDebugMessages();
+		//messages = new ArrayList<String>(); only when not having a file in place
+		serializer = new MessageSerializer(appContext, SMSR_FILENAME);
+		messages = serializer.loadMessages();
+		
+		//populateDebugMessages(); only when not having a file in place
 	}
 	
 	
 	public static MessageStore get(Context c)
+		throws IOException
 	{
 		if(messageList == null)
 			return new MessageStore(c.getApplicationContext());
@@ -49,7 +55,7 @@ public class MessageStore
 	public void save()
 		throws IOException
 	{
-		MessageSerializer serializer = new MessageSerializer(appContext, SMSR_FILENAME);
+		//MessageSerializer serializer = new MessageSerializer(appContext, SMSR_FILENAME);
 		serializer.saveMessages(messages);
 	}
 	
