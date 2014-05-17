@@ -1,6 +1,7 @@
 package org.smsr.pagesmsr;
 
 import android.content.Context;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public class MessageStore
 {
+	private static final String SMSR_FILENAME = "pagesmsr.txt";
 	private static MessageStore messageList;
 	private Context appContext;
 	private ArrayList<String> messages;
@@ -42,6 +44,15 @@ public class MessageStore
 	{
 		return messages.get(i);
 	}
+	
+	
+	public void save()
+		throws IOException
+	{
+		MessageSerializer serializer = new MessageSerializer(appContext, SMSR_FILENAME);
+		serializer.saveMessages(messages);
+	}
+	
 	
 	private void populateDebugMessages()
 	{

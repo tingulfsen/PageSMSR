@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import org.smsr.pagesmsr.R;
@@ -44,5 +46,23 @@ public class PageListFragment extends ListFragment
     	Intent i = new Intent(getActivity(), PageActivity.class);
     	i.putExtra(PageFragment.EXTRA_MESSAGE_ID, position); // pass in the list position - i.e. 0 for the first message.
     	startActivity(i);
+    }
+    
+    @Override
+    public void onPause()
+    {
+    	super.onPause();
+    	try
+    	{
+    		MessageStore.get(getActivity()).save();
+    	}
+    	catch(IOException ioe)
+    	{
+    		Log.e(TAG, "Exception occurred attempting to save messages: " + ioe.getMessage());
+    		
+    	    StringWriter sw = new StringWriter();
+    	    ioe.printStackTrace(new PrintWriter(sw));
+    		Log.e(TAG, sw.toString());
+    	}
     }
 }
