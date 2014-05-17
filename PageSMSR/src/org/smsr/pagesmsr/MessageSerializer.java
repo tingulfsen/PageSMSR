@@ -1,9 +1,13 @@
 package org.smsr.pagesmsr;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -21,7 +25,7 @@ public class MessageSerializer
 	public MessageSerializer(Context c, String f)
 	{
 		context = c;
-		filename = f;
+		filename = context.getFilesDir().getPath().toString() + "/" + f; // don't save to root, save to the application's directory
 	}
 	
 	
@@ -36,5 +40,26 @@ public class MessageSerializer
 			outs.newLine();
 		}
 		outs.close();
+	}
+	
+	
+	public List<String> loadMessages()
+		throws IOException
+	{
+		String m;
+		ArrayList<String> messageList = new ArrayList<String>();
+		
+		try
+		{
+			BufferedReader ins = new BufferedReader(new FileReader(filename));
+		
+			while((m = ins.readLine()) != null)
+				messageList.add(m);
+			ins.close();
+		}
+		catch(FileNotFoundException fnfe)
+		{} // ignore - happens on first call when no file exists yet
+		
+		return messageList;
 	}
 }
